@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Dashboard from './Dashboard'
 import logo from './logo.svg';
 import './App.css';
 
@@ -98,6 +99,23 @@ const movies = {
 };
 
 class App extends Component {
+  userByMovies = {}
+
+  constructor(props){
+    super(props);
+    this.sortUserByMovies();
+  }
+
+  sortUserByMovies() {
+	profiles.forEach(profile => {
+      if(this.userByMovies[profile.favoriteMovieID]) {
+        this.userByMovies[profile.favoriteMovieID].push([profile.userID])
+      } else {
+        this.userByMovies[profile.favoriteMovieID] = [profile.userID]
+      }
+    })
+  }
+  
   render() {
     return (
       <div className="App">
@@ -106,6 +124,11 @@ class App extends Component {
           <h1 className="App-title">ReactND - Coding Practice</h1>
         </header>
         <h2>How Popular is Your Favorite Movie?</h2>
+    	  <Dashboard
+    		userByMovies={this.userByMovies}
+			movieList={movies}
+			userList={users}
+		  />
       </div>
     );
   }
